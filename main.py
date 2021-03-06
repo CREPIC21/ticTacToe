@@ -1,6 +1,5 @@
 import random
 
-
 # creating a playing board
 rows, cols = (3, 3)
 play_board = [[0 for i in range(1, 4)] for j in range(1, 4)]
@@ -9,13 +8,13 @@ for i in range(len(play_board)):
     for j in range(len(play_board)):
         play_board[i][j] = str(a)
         a += 1
-    # computer gets first move - always in the middle of the board
+    # computer gets first move - always in the middle of the board, computer moves are marked with "X"
     play_board[1][1] = "X"
 
 
 def DisplayBoard(board):
     # the function accepts one parameter containing the board's current status
-    # and prints it out to the console
+    # and prints the board out to the console
     for i in range(len(board)):
         print("-" * 25)
         print("|       |       |       |")
@@ -31,7 +30,7 @@ def DisplayBoard(board):
 
 def EnterMove(board):
     # the function accepts the board current status, then asks the user about their move,
-    # checks the user input and updates the board field
+    # checks the user input and updates the board field, users moves are marked with "O"
     player_move = str(input("Select your move. Check the board and type a field number for your move: "))
     for fields in board:
         for field in fields:
@@ -42,7 +41,9 @@ def EnterMove(board):
 
 
 def VictoryFor(board, sign):
-    # the function checks the board status in order to check if who won the game, computer using 'X' or the player using 'O'
+    # the function checks the board status in order to check who won the game, computer using 'X' or the player using 'O'
+    
+    # we need count as the board has 9 fields
     count = 0
     for fields in board:
         for field in fields:
@@ -85,6 +86,8 @@ def VictoryFor(board, sign):
             else:
                 print("You lose!")
             return False
+        
+    # if count is 9 and there was no winner up to this point then it is a draw
     if count == 9:
         print("No winners, it's a draw!!!")
         return False
@@ -111,11 +114,12 @@ def DrawMove(board):
     print("Computer plays:")
     return True
 
-
+# here we are displaying the board first time with the computer first move already in the middle of the board
 DisplayBoard(play_board)
 
 
 game_is_on = True
+# marks start the game, user turn to enter the move
 while game_is_on:
     EnterMove(play_board)
     DisplayBoard(play_board)
