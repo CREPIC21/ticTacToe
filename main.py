@@ -1,0 +1,129 @@
+import random
+
+
+# creating a playing board
+rows, cols = (3, 3)
+play_board = [[0 for i in range(1, 4)] for j in range(1, 4)]
+a = 1
+for i in range(len(play_board)):
+    for j in range(len(play_board)):
+        play_board[i][j] = str(a)
+        a += 1
+    # computer gets first move - always in the middle of the board
+    play_board[1][1] = "X"
+
+
+def DisplayBoard(board):
+    # the function accepts one parameter containing the board's current status
+    # and prints it out to the console
+    for i in range(len(board)):
+        print("-" * 25)
+        print("|       |       |       |")
+        for j in range(len(board)):
+            if j == len(board) - 1:
+                print(f"|   {board[i][j]}   ", end="|")
+            else:
+                print(f"|   {board[i][j]}   ", end="")
+        print()
+        print("|       |       |       |")
+    print("-" * 25)
+
+
+def EnterMove(board):
+    # the function accepts the board current status, then asks the user about their move,
+    # checks the user input and updates the board field
+    player_move = str(input("Select your move. Check the board and type a field number for your move: "))
+    for fields in board:
+        for field in fields:
+            if field == player_move:
+                i = board.index(fields)
+                j = fields.index(field)
+                board[i][j] = "O"
+
+
+def VictoryFor(board, sign):
+    # the function checks the board status in order to check if who won the game, computer using 'X' or the player using 'O'
+    count = 0
+    for fields in board:
+        for field in fields:
+            if not field.isnumeric():
+                count += 1
+    for field in board:
+        if field.count(sign) == 3:
+            if sign == "O":
+                print("You win!!!")
+            else:
+                print("You lose!")
+            return False
+        if board[0][0] == board[1][0] and board[0][0] == board[2][0]:
+            if board[0][0] == "O":
+                print("You win!!!")
+            else:
+                print("You lose!")
+            return False
+        if board[0][1] == board[1][1] and board[0][1] == board[2][1]:
+            if board[0][1] == "O":
+                print("You win!!!")
+            else:
+                print("You lose!")
+            return False
+        if board[0][2] == board[1][2] and board[0][2] == board[2][2]:
+            if board[0][2] == "O":
+                print("You win!!!")
+            else:
+                print("You lose!")
+            return False
+        if board[0][0] == board[1][1] and board[0][0] == board[2][2]:
+            if board[0][2] == "O":
+                print("You win!!!")
+            else:
+                print("You lose!")
+            return False
+        if board[0][2] == board[1][1] and board[0][2] == board[2][0]:
+            if board[0][2] == "O":
+                print("You win!!!")
+            else:
+                print("You lose!")
+            return False
+    if count == 9:
+        print("No winners, it's a draw!!!")
+        return False
+    return True
+
+
+def DrawMove(board):
+    # the function draws the computer's random move and updates the board
+    random_numbers = []
+    for fields in board:
+        for field in fields:
+            if field.isnumeric():
+                random_numbers.append(field)
+    if len(random_numbers) > 1:
+        computer_move = str(random.choice(random_numbers))
+    else:
+        computer_move = str(random_numbers[0])
+    for fields in board:
+        for field in fields:
+            if field == computer_move:
+                i = board.index(fields)
+                j = fields.index(field)
+                board[i][j] = "X"
+    print("Computer plays:")
+    return True
+
+
+DisplayBoard(play_board)
+
+
+game_is_on = True
+while game_is_on:
+    EnterMove(play_board)
+    DisplayBoard(play_board)
+    game_is_on = VictoryFor(play_board, "O")
+    if not game_is_on:
+        break
+    game_is_on = DrawMove(play_board)
+    if not game_is_on:
+        break
+    DisplayBoard(play_board)
+    game_is_on = VictoryFor(play_board, "X")
