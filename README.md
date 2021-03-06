@@ -1,3 +1,4 @@
 # ticTacToe
 
-simple ticTacToe game, something to play when I am board
+Simple ticTacToe game created with pure Python using functions and random module, something to play when I am bored
+
